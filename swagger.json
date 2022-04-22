@@ -1,0 +1,31 @@
+{
+"openapi": "3.0.0",
+"info":{
+          "title":"Music Library API",
+          "version":"1.0.0",
+          "description":"THE API WHICH WIll PERFORM MUSIC LIBRARY CRUD OPERATIONS"
+         },
+         "host":"localhost:8080",
+         "paths":{
+               "/users/create":{
+                        "post":{
+                            "summary":"get all Albums",
+                            "description":"get or list of Albums",
+                            "requestBody":{
+                                  "required": "true",
+                                  "content":{
+                                  "application/json":{
+                                  "schema":{
+                                  "type":"object",
+                                  "properties":
+                                  "username"
+                                  }
+                                  }
+                                  }
+                                }
+                            }
+               }
+            }
+        }
+                
+                            
