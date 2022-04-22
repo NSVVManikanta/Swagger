@@ -1,0 +1,598 @@
+openapi: "3.0.0"
+info:
+  title: Music Library API
+  description: THE API WHICH WIll PERFORM MUSIC LIBRARY CRUD OPERATIONS.
+  version: 1.0.0
+
+tags: 
+ name: Authentication
+ name: Albums
+ name: Songs
+
+paths:
+   # SignUp
+  /users/create:
+    post:
+      summary: Register User!
+      tags: [Authentication]
+      description: Create An User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: User Created Successfully!
+          content:
+            application/json:
+              schema:
+                type: string
+  # Login
+  /auth:
+    post:
+      summary: Login User!
+      tags: [Authentication]
+      description: User Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: User Login Successfully!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: integer
+                  access_token:
+                    type: string
+                  refresh_token:
+                    type: string
+  # Get Albums
+  /albums:
+    get:
+      summary: Get Albums!
+      tags: [Albums]
+      description: Get All Albums.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: This is the Album List!
+          content:
+            application/json:
+              schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  year:
+                    type: string
+                  songs:
+                    type: array
+                    items:
+                      type: object
+                    properties:
+                    title:
+                      type: string
+                    length:
+                      type: string
+                    composers:
+                      type: string
+                    singers:
+                      type: string
+                    lyricists:
+                      type: string
+    post:
+      summary: Create Album!
+      tags: [Albums]
+      description: Create An  Album.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  year:
+                    type: string 
+                  songs:
+                    type: array 
+                    items:
+                      type: object
+                    properties:
+                    title:
+                      type: string
+                    length:
+                      type: string
+                    composers:
+                      type: string
+                    singers:
+                      type: string
+                    lyricists:
+                      type: string       
+      responses:
+        200:
+          description: The Album is Created!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  year:
+                    type: string
+                  songs:
+                    type: array
+                    items:
+                      type: object
+                    properties:
+                    title:
+                      type: string
+                    length:
+                      type: string
+                    composers:
+                      type: string
+                    singers:
+                      type: string
+                    lyricists:
+                      type: string
+  # Update Album
+  /albums/{albumId}:
+    put:
+      summary: Update Album!
+      tags: [Albums]
+      description: Update An  Album.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: albumId
+          schema:
+            type: integer
+          required: true  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                year:
+                  type: string    
+      responses:
+        200:
+          description: The Album is updated!
+          content:
+            application/json:
+              schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                year:
+                  type: string  
+  # Delete Album
+    delete:
+      summary: Delete Album!
+      tags: [Albums]
+      description: Delete An  Album.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true   
+      responses:
+        200:
+          description: The Album is Deleted!
+          content:
+            application/json:
+              schema:
+              type: string      
+  # Get Songs
+  /songs:
+    get:
+      summary: Get Songs!
+      tags: [Songs]
+      description: Get All Songs With Albums.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: This is the Songs List!
+          content:
+            application/json:
+              schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  length:
+                    type: string
+                  composers:
+                    type: string
+                  singers:
+                    type: string
+                  lyricists:
+                    type: string   
+                  albums:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      title:
+                        type: string
+                      year:
+                        type: string   
+  # Create Songs                       
+  /albums/{albumId}/songs:
+    post:
+      summary: Create Songs!
+      tags: [Songs]
+      description: Create A Song.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: albumId
+          schema:
+            type: integer
+          required: true  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+                type: object
+                properties:
+                  title:
+                    type: string
+                  length:
+                    type: string
+                  composers:
+                    type: string
+                  singers:
+                    type: string
+                  lyricists:
+                    type: string      
+      responses:
+        200:
+          description: The Song is Created!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  length:
+                    type: string
+                  composers:
+                    type: string
+                  singers:
+                    type: string
+                  lyricists:
+                    type: string
+                  albumId:
+                    type: integer    
+  # Delete Song
+  /albums/{albumId}/songs/{songId}:
+    delete:
+      summary: Delete Song!
+      tags: [Songs]
+      description: Delete A Song.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true 
+        - in: path
+          name: albumId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: songId
+          schema:
+            type: integer    
+      responses:
+        200:
+          description: The Song is Deleted!
+          content:
+            application/json:
+              schema:
+              type: string  
+    put:
+      summary: Update Song!
+      tags: [Songs]
+      description: Update A Song.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: albumId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: songId
+          schema:
+            type: integer
+          required: true     
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+                type: object
+                properties:
+                  title:
+                    type: string
+                  length:
+                    type: string
+                  composers:
+                    type: string
+                  singers:
+                    type: string
+                  lyricists:
+                    type: string      
+      responses:
+        200:
+          description: The Song is Updated!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  length:
+                    type: string
+                  composers:
+                    type: string
+                  singers:
+                    type: string
+                  lyricists:
+                    type: string
+                  albumId:
+                    type: integer     
+    get:
+      summary: Get Song!
+      tags: [Songs]
+      description: Create A Single Song.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: albumId
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: songId
+          schema:
+            type: integer
+          required: true        
+      responses:
+        200:
+          description: The Song is Retrieved!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  length:
+                    type: string
+                  composers:
+                    type: string
+                  singers:
+                    type: string
+                  lyricists:
+                    type: string 
+  # Refresh User
+  /auth/refresh:
+    post:
+      summary: Refresh Token!
+      tags: [Authentication]
+      description: Rfresh A Token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                refresh_token:
+                  type: string   
+      responses:
+        200:
+          description: The Token is refreshed!
+          content:
+            application/json:
+              schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                access_token:
+                  type: string
+                refresh_token:
+                  type: string
+  # Get Users
+  /users/list:                  
+    get:
+      summary: Get Users!
+      tags: [Authentication]
+      description: Get All Users.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true        
+      responses:
+        200:
+          description: The Users List is!
+          content:
+            application/json:
+              schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string
+  # Get User
+  /users/getuser:                  
+    get:
+      summary: Get User!
+      tags: [Authentication]
+      description: Get An User.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true        
+      responses:
+        200:
+          description: The retrieved user is!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  username:
+                    type: string   
+  # Delete User
+  /users/delete:                  
+    get:
+      summary: Delete User!
+      tags: [Authentication]
+      description: Delete An User.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true        
+      responses:
+        200:
+          description: The user is Deleted!
+          content:
+            application/json:
+              schema:
+                type: string
+  # Update User
+  /users/update:                  
+    put:
+      summary: Update User!
+      tags: [Authentication]
+      description: Update An User.
+      parameters:
+        - in: header
+          name: x-access-token
+          schema:
+            type: string
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string            
+      responses:
+        200:
+          description: The user is Updated!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  password:
+                    type: string  
+                    
+                                                                                  
+
+                                                                      
+
+                      
